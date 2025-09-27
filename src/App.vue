@@ -1,66 +1,17 @@
-<script setup>
-    import { ref } from 'vue'
+ï»¿<script setup>
     import Navbar from './components/Navbar.vue'
-    import Toasts from './components/Toasts.vue'
-    import ProjectForm from './views/ProjectForm.vue'
-    import ProjectList from './views/ProjectList.vue'
 
-    // Egyszer? „nézetváltás” router nélkül: 'list' | 'new'
-    const view = ref('list')
-
-    // Toast állapot a teljes appban
-    const toasts = ref([]) // { id, type: 'success'|'error'|'info', message }
-
-    function pushToast(message, type = 'success') {
-        const id = Date.now() + Math.random()
-        toasts.value.push({ id, type, message })
-        setTimeout(() => {
-            toasts.value = toasts.value.filter(t => t.id !== id)
-        }, 3000)
-    }
-
-    // Szerkesztéshez átadott projekt (null, ha új)
-    const projectToEdit = ref(null)
-
-    function openNew() {
-        projectToEdit.value = null
-        view.value = 'new'
-    }
-
-    function openEdit(project) {
-        projectToEdit.value = { ...project }
-        view.value = 'new'
-    }
-
-    function backToList() {
-        projectToEdit.value = null
-        view.value = 'list'
-    }
-
-    // A form submit után visszalépünk a listára és toastot mutatunk
-    function onSaved(msg = 'Projekt mentve!') {
-        pushToast(msg, 'success')
-        backToList()
-    }
 </script>
 
 <template>
     <div class="min-h-screen bg-gray-50 text-gray-900">
-        <Navbar @go-list="() => { view = 'list' }"
-                @go-new="openNew" />
+        <!-- FelsÅ‘ navigÃ¡ciÃ³ -->
+        <Navbar />
 
+        <!-- AktuÃ¡lis nÃ©zet a routerbÅ‘l -->
         <main class="max-w-4xl mx-auto p-4">
-            <ProjectList v-if="view === 'list'"
-                         @edit="openEdit"
-                         @notify="(m,t) => pushToast(m,t)" />
-            <ProjectForm v-else
-                         :initial="projectToEdit"
-                         @cancel="backToList"
-                         @saved="onSaved"
-                         @notify="(m,t) => pushToast(m,t)" />
+            <router-view />
         </main>
-
-        <Toasts :items="toasts" />
     </div>
 </template>
 
@@ -193,7 +144,7 @@
      }
     .btn {
         background: #fff;
-        color: #111; /* fekete szöveg */
+        color: #111; /* fekete szÃ¶veg */
     }
 
 </style>

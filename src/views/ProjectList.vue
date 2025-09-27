@@ -1,8 +1,12 @@
 ﻿<script setup>
 import { computed, ref } from 'vue'
 import { useProjectStorage } from '../composables/useProjectStorage'
+import { formatDate } from '../utils/formatDate'
+import { formatCurrency } from '../utils/formatCurrency'
+import { RouterLink } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
-const emit = defineEmits(['edit','notify'])
+const toast = useToast()
 const { projects, remove } = useProjectStorage()
 
 const query = ref('')
@@ -19,7 +23,7 @@ const filtered = computed(() => {
 function onDelete(id) {
   if (confirm('Biztosan törlöd a projektet?')) {
     remove(id)
-    emit('notify', 'Projekt törölve.', 'info')
+    toast.success('Projekt törölve')
   }
 }
 </script>
@@ -30,7 +34,6 @@ function onDelete(id) {
             <h2 class="text-lg font-bold">Projektek listája</h2>
             <input class="input" v-model="query" placeholder="Keresés név vagy leírás alapján..." style="max-width: 280px;">
         </div>
-
         <div class="mt-4">
             <table class="table">
                 <thead>
@@ -49,13 +52,11 @@ function onDelete(id) {
                     <tr v-for="p in filtered" :key="p.id">
                         <td>{{ p.name }}</td>
                         <td class="small">{{ p.description }}</td>
-                        <td>{{ p.startDate || '—' }}</td>
-                        <td>{{ new Intl.NumberFormat('hu-HU').format(p.budget || 0) }} Ft</td>
+                        <td>{{ formatDate(p.startDate) }}</td>
+                        <td>{{ formatCurrency(p.budget) }}</td>
                         <td>
-                            <div class="flex gap-2">
-                                <button class="btn" @click="$emit('edit', p)">Módosítás</button>
-                                <button class="btn btn-danger" @click="onDelete(p.id)">Törlés</button>
-                            </div>
+                            <RouterLink class="btn" :to="`/projects/${p.id}/edit`">Módosítás</RouterLink>
+                            <button class="btn btn-danger" @click="onDelete(p.id)">Törlés</button>
                         </td>
                     </tr>
                 </tbody>

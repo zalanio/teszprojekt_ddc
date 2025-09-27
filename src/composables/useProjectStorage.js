@@ -1,5 +1,5 @@
-import { ref } from 'vue'
-
+﻿import { ref } from 'vue'
+import { Project } from '../models/Project'
 const STORAGE_KEY = 'projects'
 
 export function useProjectStorage() {
@@ -17,16 +17,17 @@ export function useProjectStorage() {
     }
 
     function add(project) {
-        const id = Date.now()
-        projects.value.push({ id, ...project })
+        const newProject = new Project(project)
+        projects.value.push(newProject)
         save()
-        return id
+        return newProject.id
     }
 
     function update(id, patch) {
         const i = projects.value.findIndex(p => p.id === id)
         if (i !== -1) {
-            projects.value[i] = { ...projects.value[i], ...patch }
+            // új Project példány a régiből + patch
+            projects.value[i] = new Project({ ...projects.value[i], ...patch })
             save()
         }
     }
