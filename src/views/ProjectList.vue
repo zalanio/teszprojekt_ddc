@@ -11,25 +11,23 @@
     const notify = useNotify()
 
     function onDelete(id) {
-        try {
-            if (confirm('Biztosan törlöd a projektet?')) {
-                remove(id)
-                notify.success('Projekt törölve')
-            }
-        } catch (err) {
-            notify.handle(err)
+        if (confirm('Biztosan törlöd a projektet?')) {
+            remove(id)
+            notify.success('Projekt törölve')
         }
     }
 </script>
 
 <template>
-    <div class="card">
-        <div class="flex items-center justify-between">
-            <h2 class="text-lg font-bold">Projektek listája</h2>
-            <input class="input" v-model="query" placeholder="Keresés név vagy leírás alapján..." style="max-width: 280px;">
-        </div>
-        <div class="mt-4">
-            <table class="table">
+    <div class="max-w-5xl mx-auto p-4">
+        <div class="card overflow-x-auto">
+            <div class="flex flex-col gap-2 mb-4">
+                <h2 class="text-lg font-bold">Projektek listája</h2>
+                <input class="input w-full" v-model="query"
+                       placeholder="Keresés név vagy leírás alapján...">
+            </div>
+
+            <table class="table w-full min-w-[600px]">
                 <thead>
                     <tr>
                         <th>Név</th>
@@ -48,9 +46,9 @@
                         <td class="small">{{ p.description }}</td>
                         <td>{{ formatDate(p.startDate) }}</td>
                         <td>{{ formatCurrency(p.budget) }}</td>
-                        <td>
-                            <RouterLink class="btn" :to="`/projects/${p.id}/edit`">Módosítás</RouterLink>
-                            <button class="btn btn-danger" @click="onDelete(p.id)">Törlés</button>
+                        <td class="flex flex-col gap-2">
+                            <RouterLink class="btn w-full" :to="`/projects/${p.id}/edit`">Módosítás</RouterLink>
+                            <button class="btn btn-danger w-full" @click="onDelete(p.id)">Törlés</button>
                         </td>
                     </tr>
                 </tbody>
@@ -61,10 +59,10 @@
 
 <style scoped>
     .text-lg {
-        font-size: 1.125rem
+        font-size: 1.125rem;
     }
 
     .font-bold {
-        font-weight: 700
+        font-weight: 700;
     }
 </style>

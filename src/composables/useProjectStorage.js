@@ -17,10 +17,11 @@ export function useProjectStorage() {
     }
 
     function add(project) {
-        const newProject = new Project(project)
-        projects.value.push(newProject)
+        const id = Date.now()
+        const { name, description, startDate, budget } = project
+        projects.value.push({ id, name, description, startDate, budget })
         save()
-        return newProject.id
+        return id
     }
 
     function update(id, patch) {
