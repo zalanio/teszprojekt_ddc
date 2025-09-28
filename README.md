@@ -18,34 +18,39 @@ Egyszerű, reszponzív Vue 3 alkalmazás, amellyel projekteket lehet hozzáadni,
 ## Projektstruktúra
 
 projekt-nyilvantarto/
+## Projektstruktúra
+
+```text
+projekt-nyilvantarto/
 ├─ README.md
 ├─ package.json
 ├─ vite.config.js
-├─ /public
-│ └─ favicon.ico
-└─ /src
-├─ App.vue # fő alkalmazás layout
-├─ main.js # belépési pont (Pinia + Router + Toast)
-├─ router/
-│ └─ index.js # útvonalak
-├─ components/
-│ ├─ Navbar.vue # felső navigáció
-│ ├─ AppTextInput.vue # újrafelhasználható input mező
-│ └─ ProjectTable.vue # projektlista táblázatos megjelenítése
-├─ composables/
-│ ├─ useProjectStorage.js # LocalStorage logika (CRUD)
-│ ├─ useFilters.js # keresőmező / szűrés logika
-│ ├─ useValidation.js # űrlapvalidáció logika
-│ └─ useNotify.js # egységes toast üzenetek
-├─ utils/
-│ ├─ formatDate.js # dátum formázás Intl-lel
-│ └─ formatCurrency.js # pénznem formázás Intl-lel
-├─ views/
-│ ├─ ProjectList.vue # projektlista oldal
-│ └─ ProjectForm.vue # új projekt / módosítás oldal
-└─ /tests
-├─ useValidation.test.js # egységteszt validációhoz
-└─ useProjectStorage.test.js # egységteszt storage logikához
+├─ public/
+│  └─ favicon.ico
+└─ src/
+   ├─ App.vue                     # fő alkalmazás layout
+   ├─ main.js                    # belépési pont (Pinia + Router + Toast)
+   ├─ router/
+   │  └─ index.js                # útvonalak
+   ├─ components/
+   │  ├─ Navbar.vue              # felső navigáció
+   │  ├─ AppTextInput.vue        # újrafelhasználható input mező
+   │  └─ ProjectTable.vue        # projektlista táblázatos megjelenítése
+   ├─ composables/
+   │  ├─ useProjectStorage.js    # LocalStorage logika (CRUD)
+   │  ├─ useFilters.js           # keresőmező / szűrés logika
+   │  ├─ useValidation.js        # űrlapvalidáció logika
+   │  └─ useNotify.js            # egységes toast üzenetek
+   ├─ utils/
+   │  ├─ formatDate.js           # dátum formázás Intl-lel
+   │  └─ formatCurrency.js       # pénznem formázás Intl-lel
+   ├─ views/
+   │  ├─ ProjectList.vue         # projektlista oldal
+   │  └─ ProjectForm.vue         # új projekt / módosítás oldal
+   └─ tests/
+      ├─ useValidation.test.js   # egységteszt validációhoz
+      └─ useProjectStorage.test.js # egységteszt storage logikához
+
 
 ## Telepítés és futtatás
 
