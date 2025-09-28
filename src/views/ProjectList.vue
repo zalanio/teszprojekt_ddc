@@ -11,9 +11,13 @@
     const notify = useNotify()
 
     function onDelete(id) {
-        if (confirm('Biztosan törlöd a projektet?')) {
-            remove(id)
-            notify.success('Projekt törölve')
+        try {
+            if (confirm('Biztosan törlöd a projektet?')) {
+                remove(id)
+                notify.success('Projekt törölve')
+            }
+        } catch (err) {
+            notify.handle(err)
         }
     }
 </script>

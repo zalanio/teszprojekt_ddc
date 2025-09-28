@@ -23,19 +23,25 @@
     }, { immediate: true })
 
     function onSubmit() {
-        const error = validateProject(form)
-        if (error) {
-            notify.error(error)
-            return
+        try {
+            const error = validateProject(form)
+            if (error) {
+                notify.error(error)
+                return
+            }
+
+            if (form.id) {
+                update(form.id, form)
+                notify.success('Projekt frissítve')
+            } else {
+                add(form)
+                notify.success('Projekt mentve')
+            }
+
+            router.push('/projects')
+        } catch (err) {
+            notify.handle(err)  // minden váratlan hibát is kezel
         }
-        if (form.id) {
-            update(form.id, form)
-            notify.success('Projekt frissítve')
-        } else {
-            add(form)
-            notify.success('Projekt mentve')
-        }
-        router.push('/projects')
     }
 </script>
 
