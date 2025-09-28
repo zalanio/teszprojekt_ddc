@@ -1,31 +1,21 @@
 ﻿<script setup>
-import { computed, ref } from 'vue'
-import { useProjectStorage } from '../composables/useProjectStorage'
-import { formatDate } from '../utils/formatDate'
-import { formatCurrency } from '../utils/formatCurrency'
-import { RouterLink } from 'vue-router'
-import { useToast } from 'vue-toastification'
+    import { useProjectStorage } from '../composables/useProjectStorage'
+    import { useProjectFilters } from '../composables/useFilters'
+    import { useNotify } from '../composables/useNotify'
+    import { formatDate } from '../utils/formatDate'
+    import { formatCurrency } from '../utils/formatCurrency'
+    import { RouterLink } from 'vue-router'
 
-const toast = useToast()
-const { projects, remove } = useProjectStorage()
+    const { projects, remove } = useProjectStorage()
+    const { query, filtered } = useProjectFilters(projects)
+    const notify = useNotify()
 
-const query = ref('')
-
-const filtered = computed(() => {
-  const q = query.value.trim().toLowerCase()
-  if (!q) return projects.value
-  return projects.value.filter(p =>
-    (p.name || '').toLowerCase().includes(q) ||
-    (p.description || '').toLowerCase().includes(q)
-  )
-})
-
-function onDelete(id) {
-  if (confirm('Biztosan törlöd a projektet?')) {
-    remove(id)
-    toast.success('Projekt törölve')
-  }
-}
+    function onDelete(id) {
+        if (confirm('Biztosan törlöd a projektet?')) {
+            remove(id)
+            notify.success('Projekt törölve')
+        }
+    }
 </script>
 
 <template>
