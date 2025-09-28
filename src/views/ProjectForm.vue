@@ -4,6 +4,7 @@
     import { useProjectStorage } from '../composables/useProjectStorage'
     import { useValidation } from '../composables/useValidation'
     import { useNotify } from '../composables/useNotify'
+    import AppTextInput from '../components/AppTextInput.vue'
 
     const route = useRoute()
     const router = useRouter()
@@ -11,15 +12,8 @@
     const { validateProject } = useValidation()
     const notify = useNotify()
 
-    const form = reactive({
-        id: null,
-        name: '',
-        description: '',
-        startDate: '',
-        budget: ''
-    })
+    const form = reactive({ id: null, name: '', description: '', startDate: '', budget: '' })
 
-    // edit mód adatbetöltés – az id-t számmá konvertáljuk
     watch(() => route.params.id, (id) => {
         const pid = Number(id)
         if (pid) {
@@ -50,20 +44,12 @@
 <template>
     <form @submit.prevent="onSubmit" class="max-w-3xl mx-auto space-y-4 p-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label class="label">Projekt neve *</label>
-                <input v-model="form.name"
-                       class="input w-full"
-                       type="text"
-                       placeholder="Pl. Webshop redesign" />
-            </div>
-
-            <div>
-                <label class="label">Kezdési dátum</label>
-                <input v-model="form.startDate"
-                       class="input w-full"
-                       type="date" />
-            </div>
+            <AppTextInput v-model="form.name"
+                          label="Projekt neve *"
+                          placeholder="Pl. Webshop redesign" />
+            <AppTextInput v-model="form.startDate"
+                          type="date"
+                          label="Kezdési dátum" />
         </div>
 
         <div>
@@ -73,22 +59,13 @@
                       placeholder="Rövid leírás..."></textarea>
         </div>
 
-        <div>
-            <label class="label">Költségvetés (pozitív szám) *</label>
-            <input v-model.number="form.budget"
-                   class="input w-full"
-                   type="number"
-                   placeholder="pl. 500000" />
-        </div>
+        <AppTextInput v-model.number="form.budget"
+                      type="number"
+                      label="Költségvetés (pozitív szám) *"
+                      placeholder="pl. 500000" />
 
-        <div>
-            <button type="submit" class="btn btn-primary w-full md:w-auto">
-                {{ form.id ? 'Mentés' : 'Hozzáadás' }}
-            </button>
-        </div>
+        <button type="submit" class="btn btn-primary w-full md:w-auto">
+            {{ form.id ? 'Mentés' : 'Hozzáadás' }}
+        </button>
     </form>
 </template>
-
-<style scoped>
-    /* ha kell extra stílus */
-</style>
